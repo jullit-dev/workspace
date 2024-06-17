@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вакансии на Work Space</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="container header__container">
+      <img class="header__logo" src="img/logo.svg" alt="Логотип WorkSpace">
+      <a class="header__link" href="#vacancies">Посмотреть вакансии</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero__container">
+        <h1 class="hero__title">
+          Найди работу
+          <span class="accent-text">своей мечты</span>
+        </h1>
+      </div>
+    </section>
+
+    <div class="vacancies" id="vacancies">
+      <div class="container vacancies__container">
+
+        <button class="vacancies__filter-btn">Фильтр</button>
+
+        <section class="vacancies__filter filter">
+          <h2 class="filter__title">Фильтр</h2>
+          <form class="filter__form">
+            <fieldset class="filter__fieldset">
+              <lagend class="filter__lagend">Город</lagend>
+              <select class="filter__select" id="city" name="city">
+                <option value="">Выбрать город</option>
+                <option>Москва</option>
+                <option>Санкт-Петербург</option>
+                <option>Новосибирск</option>
+              </select>
+            </fieldset>
+
+            <fieldset class="filter__fieldset">
+              <lagend class="filter__lagend">Заработная плата</lagend>
+              <div class="filter__range">
+                <input class="filter__input" type="number" name="pay-from" placeholder="от">
+                <input class="filter__input" type="number" name="pay-to" placeholder="до">
+              </div>
+            </fieldset>
+
+            <div class="filter__checkboxes">
+              <fieldset class="filter__fieldset">
+                <lagend class="filter__lagend">Формат</lagend>
+
+                <label class="filter__label checkbox">
+                  <input class="checkbox__input" type="checkbox" name="format" value="office">Офис
+                </label>
+
+                <label class="filter__label checkbox">
+                  <input class="checkbox__input" type="checkbox" name="format" value="remote">Удаленный
+                </label>
+
+                <label class="filter__label checkbox">
+                  <input class="checkbox__input" type="checkbox" name="format" value="flexible">Гибкий
+                </label>
+              </fieldset>
+
+              <fieldset class="filter__fieldset">
+                <lagend class="filter__lagend">Опыт работы</lagend>
+
+                <label class="filter__label checkbox">
+                  <input class="checkbox__input" type="checkbox" name="experience" value="doesn't matter">Не&nbsp;важно
+                </label>
+
+                <label class="filter__label checkbox">
+                  <input class="checkbox__input" type="checkbox" name="experience" value="no">Без&nbsp;опыта
+                </label>
+
+                <label class="filter__label checkbox">
+                  <input class="checkbox__input" type="checkbox" name="experience" value="1-3">От&nbsp;1&nbsp;года до&nbsp;3-х лет
+                </label>
+
+                <label class="filter__label checkbox">
+                  <input class="checkbox__input" type="checkbox" name="experience" value=">3">От&nbsp;3-х лет
+                </label>
+              </fieldset>
+
+              <fieldset class="filter__fieldset">
+                <lagend class="filter__lagend">Занятость</lagend>
+
+                <label class="filter__label checkbox">
+                  <input class="checkbox__input" type="checkbox" name="type" value="full">Полная
+                </label>
+
+                <label class="filter__label checkbox">
+                  <input class="checkbox__input" type="checkbox" name="type" value="part-time">Частичная
+                </label>
+
+                <label class="filter__label checkbox">
+                  <input class="checkbox__input" type="checkbox" name="type" value="internship">Стажировка
+                </label>
+
+                <label class="filter__label checkbox">
+                  <input class="checkbox__input" type="checkbox" name="type" value="project">Проектная работа
+                </label>
+              </fieldset>
+            </div>
+
+            <div class="filter__buttons">
+              <button class="filter__button" type="submit">Применить</button>
+              <button class="filter__reset" type="reset">Очистить</button>
+            </div>
+
+          </form>
+        </section>
+
+        <section class="vacancies__cards cards">
+          <h2 class="cadrs__title visually-hidden">Список вакансий</h2>
+
+          <ul class="cards__list">
+            <li class="cards__item">
+              <article class="vacancy" tabindex="0">
+                <img class="vacancy__img" src="img/yadro.svg" alt="Логотип компании YADRO">
+                <p class="vacancy__company">YADRO</p>
+                <h3 class="vacancy__title">Инженер</h3>
+                <ul class="vacancy__fields">
+                  <li class="vacancy__field">от 150 000₽</li>
+                  <li class="vacancy__field">полная занятость</li>
+                  <li class="vacancy__field">офис</li>
+                  <li class="vacancy__field">опыт от 3-х лет</li>
+                </ul>
+              </article>
+            </li>
+
+            <li class="cards__item">
+              <article class="vacancy" tabindex="0">
+                <img class="vacancy__img" src="img/yadro.svg" alt="Логотип компании YADRO">
+                <p class="vacancy__company">YADRO</p>
+                <h3 class="vacancy__title">Инженер</h3>
+                <ul class="vacancy__fields">
+                  <li class="vacancy__field">от 150 000₽</li>
+                  <li class="vacancy__field">полная занятость</li>
+                  <li class="vacancy__field">офис</li>
+                  <li class="vacancy__field">опыт от 3-х лет</li>
+                </ul>
+              </article>
+            </li>
+
+            <li class="cards__item">
+              <article class="vacancy" tabindex="0">
+                <img class="vacancy__img" src="img/creative-people.svg" alt="Логотип компании Creative People">
+                <p class="vacancy__company">Creative People</p>
+                <h3 class="vacancy__title">Графический дизайнер</h3>
+                <ul class="vacancy__fields">
+                  <li class="vacancy__field">от 110 000₽</li>
+                  <li class="vacancy__field">проектная работа</li>
+                  <li class="vacancy__field">удаленный</li>
+                  <li class="vacancy__field">опыт от 1 года до 3-х лет</li>
+                </ul>
+              </article>
+            </li>
+
+            <li class="cards__item">
+              <article class="vacancy" tabindex="0">
+                <img class="vacancy__img" src="img/yadro.svg" alt="Логотип компании YADRO">
+                <p class="vacancy__company">YADRO</p>
+                <h3 class="vacancy__title">Инженер</h3>
+                <ul class="vacancy__fields">
+                  <li class="vacancy__field">от 150 000₽</li>
+                  <li class="vacancy__field">полная занятость</li>
+                  <li class="vacancy__field">офис</li>
+                  <li class="vacancy__field">опыт от 3-х лет</li>
+                </ul>
+              </article>
+            </li>
+
+            <li class="cards__item">
+              <article class="vacancy" tabindex="0">
+                <img class="vacancy__img" src="img/yadro.svg" alt="Логотип компании YADRO">
+                <p class="vacancy__company">YADRO</p>
+                <h3 class="vacancy__title">Инженер</h3>
+                <ul class="vacancy__fields">
+                  <li class="vacancy__field">от 150 000₽</li>
+                  <li class="vacancy__field">полная занятость</li>
+                  <li class="vacancy__field">офис</li>
+                  <li class="vacancy__field">опыт от 3-х лет</li>
+                </ul>
+              </article>
+            </li>
+
+            <li class="cards__item">
+              <article class="vacancy" tabindex="0">
+                <img class="vacancy__img" src="img/creative-people.svg" alt="Логотип компании Creative People">
+                <p class="vacancy__company">Creative People</p>
+                <h3 class="vacancy__title">Графический дизайнер</h3>
+                <ul class="vacancy__fields">
+                  <li class="vacancy__field">от 110 000₽</li>
+                  <li class="vacancy__field">проектная работа</li>
+                  <li class="vacancy__field">удаленный</li>
+                  <li class="vacancy__field">опыт от 1 года до 3-х лет</li>
+                </ul>
+              </article>
+            </li>
+
+            <li class="cards__item">
+              <article class="vacancy" tabindex="0">
+                <img class="vacancy__img" src="img/yadro.svg" alt="Логотип компании YADRO">
+                <p class="vacancy__company">YADRO</p>
+                <h3 class="vacancy__title">Инженер</h3>
+                <ul class="vacancy__fields">
+                  <li class="vacancy__field">от 150 000₽</li>
+                  <li class="vacancy__field">полная занятость</li>
+                  <li class="vacancy__field">офис</li>
+                  <li class="vacancy__field">опыт от 3-х лет</li>
+                </ul>
+              </article>
+            </li>
+
+            <li class="cards__item">
+              <article class="vacancy" tabindex="0">
+                <img class="vacancy__img" src="img/yadro.svg" alt="Логотип компании YADRO">
+                <p class="vacancy__company">YADRO</p>
+                <h3 class="vacancy__title">Инженер</h3>
+                <ul class="vacancy__fields">
+                  <li class="vacancy__field">от 150 000₽</li>
+                  <li class="vacancy__field">полная занятость</li>
+                  <li class="vacancy__field">офис</li>
+                  <li class="vacancy__field">опыт от 3-х лет</li>
+                </ul>
+              </article>
+            </li>
+
+            <li class="cards__item">
+              <article class="vacancy" tabindex="0">
+                <img class="vacancy__img" src="img/creative-people.svg" alt="Логотип компании Creative People">
+                <p class="vacancy__company">Creative People</p>
+                <h3 class="vacancy__title">Графический дизайнер</h3>
+                <ul class="vacancy__fields">
+                  <li class="vacancy__field">от 110 000₽</li>
+                  <li class="vacancy__field">проектная работа</li>
+                  <li class="vacancy__field">удаленный</li>
+                  <li class="vacancy__field">опыт от 1 года до 3-х лет</li>
+                </ul>
+              </article>
+            </li>
+
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__container">
+      <a href="#">
+        <img class="footer__logo" src="img/logo-footer.svg" alt="Логотип WorkSpace">
+      </a>
+      <p class="footer__copyright">© Work Space, 2024</p>
+
+      <ul class="footer__contacts">
+        <li class="footer__contact">Designer:
+          <a href="#!" class="footer__link">Anastasia Ilina</a>
+        </li>
+        <li class="footer__contact">Developer:
+          <a href="#!" class="footer__link">Yulia Kuznetsova</a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+</body>
+
+</html>
