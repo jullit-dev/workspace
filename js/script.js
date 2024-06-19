@@ -2,6 +2,10 @@ const API_URL = 'https://workspace-methed.vercel.app/';
 const LOCATION_URL = 'api/locations';
 const VACANCY_URL = 'api/vacancy';
 
+const cardsList = document.querySelector('.cards__list');
+let lastUrl = '';
+const pagination = {};
+
 const getData = async (url, cbSuccess, cbError) => {
   try {
     const response = await fetch(url);
@@ -12,7 +16,8 @@ const getData = async (url, cbSuccess, cbError) => {
   }
 };
 
-const createCard = (vacancy) =>  `
+const createCard = (vacancy) =>  
+  `
   <article class="vacancy" tabindex="0" data-id="${vacancy.id}">
     <img class="vacancy__img" src="${API_URL}${vacancy.logo}" alt="Логотип компании ${vacancy.company}">
     <p class="vacancy__company">${vacancy.company}</p>
@@ -34,10 +39,37 @@ const createCards = (data) =>
     return li;
   });
 
-const renderVacancy = (data, cardsList) => {
+const renderVacancies = (data) => {
   cardsList.textContent = '';
   const cards = createCards(data);
   cardsList.append(...cards);
+  if (data.pagination) {
+    Object.assign(pagination, data.pagination);
+  }
+  observer.observe(cardsList.lastElementChild);
+};
+
+const renderMoreVacancies = (data) => {
+  const cards = createCards(data);
+  cardsList.append(...cards);
+
+  if (data.pagination) {
+    Object.assign(pagination, data.pagination);
+  }
+  
+  observer.observe(cardsList.lastElementChild);
+};
+
+const loadMoreVacacies = () => {
+  if (pagination.totalPages > pagination.currentPage) {
+    const urlWithParams = new URL(lastUrl);
+    urlWithParams.searchParams.set('page', pagination.currentPage + 1);
+    urlWithParams.searchParams.set('limit', window.innerWidth < 768 ? 6 : 12);
+
+    getData(urlWithParams, renderMoreVacancies, renderError).then(() => {
+      lastUrl = urlWithParams;
+    });
+  }
 };
 
 const renderError = (err) => {
@@ -66,34 +98,9 @@ const createDetailVacancy = (data) =>
 
       <p class="detail__resume">Отправляйте резюме на <a class="accent-text" href="mailto:${data.email}">${data.email}</a></p>
     </article>
-`
-  
-  // `
-  //   <article class="detail">
-  //     <div class="detail__header">
-  //       <img class="detail__logo" src="${API_URL}${data.logo}" alt="Логотип компании ${data.company}">
-  //       <p class="detail__company">${data.company}</p>
-  //       <h2 class="detail__title">${data.title}</h2>
-  //     </div>
-
-  //     <div class="detail__info">
-  //       <p class="detail__descr">${data.description.replaceAll('/n', '<br>')}</p>
-  //       <ul class="detail__fields">
-  //         <li class="detail__field">от ${data.salary}₽</li>
-  //         <li class="detail__field">${data.type}</li>
-  //         <li class="detail__field">${format}</li>
-  //         <li class="detail__field">${data.experience}</li>
-  //         <li class="detail__field">${data.location}</li>
-  //       </ul>
-  //     </div>
-
-  //     <p class="detail__resume">Отправляйте резюме на <a class="accent-text" href="mailto:${data.email}">${data.email}</a></p>
-  //   </article>
-  // `
-
+`;
 
 const renderModal = (data) => {
-  console.log(data)
   const modal = document.createElement('div');
   const modalMain = document.createElement('div');
   const modalClose = document.createElement('button');
@@ -101,7 +108,8 @@ const renderModal = (data) => {
   modalMain.classList.add('modal__main');
   modalClose.classList.add('modal__close');
   modalMain.innerHTML = createDetailVacancy(data);
-  modalClose.innerHTML = `
+  modalClose.innerHTML = 
+  `
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g>
         <path
@@ -109,18 +117,36 @@ const renderModal = (data) => {
           fill="#CCCCCC" />
       </g>
     </svg>
-  `
+  `;
   modalMain.append(modalClose);
   modal.append(modalMain);
-  document.body.append(modal);
-}
+  document.body.append(modal);  
+
+  modal.addEventListener('click', ({ target }) => {
+    if (target === modal || target.closest('.modal__close')) {
+      modal.remove();
+    };
+  });
+};
 
 const openModal = (id) => {
   getData(`${API_URL}${VACANCY_URL}/${id}`, renderModal, renderError);
 };
 
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        loadMoreVacacies();
+      };
+    });
+  }, {
+    rootMargin: '100px',
+  },
+);
+
 const init = () => {
-  const cardsList = document.querySelector('.cards__list');
+  const filterForm = document.querySelector('.filter__form');
 
   // Select city
   const citySelect = document.getElementById('city');
@@ -132,11 +158,10 @@ const init = () => {
   getData(
     `${API_URL}${LOCATION_URL}`, 
     (locationData) => {
-      console.log(locationData);
       const locations = locationData.map((location) => ({
-        value:location,
+        value: location,
       }));
-      cityChoices.setChoices(locations, "value", true);
+      cityChoices.setChoices(locations, "value", "label", false);
     },
     (err) => {
       console.log(err);
@@ -144,20 +169,38 @@ const init = () => {
   );
 
   // Card
-  const urlVacancy = new URL(`${API_URL}${VACANCY_URL}`);
+  const urlWithParams = new URL(`${API_URL}${VACANCY_URL}`);
 
-  getData(urlVacancy,
-    (data) => {
-      renderVacancy(data, cardsList);
-    },
-    renderError);
+  urlWithParams.searchParams.set('limit', window.innerWidth < 768 ? 6 : 12);
+  urlWithParams.searchParams.set('page', 1);
 
-  cardsList.addEventListener('click', ({target}) => {
+  getData(urlWithParams, renderVacancies, renderError).then(() => {
+    lastUrl = urlWithParams;
+  });
+
+  // Modal
+  cardsList.addEventListener('click', ({ target }) => {
     const vacancyCard = target.closest('.vacancy');
     if (vacancyCard) {
       const vacancyId = vacancyCard.dataset.id;
       openModal(vacancyId);
     }
+  });
+
+  // Filter
+  filterForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(filterForm);
+
+    const urlWithParam = new URL(`${API_URL}${VACANCY_URL}`);
+
+    formData.forEach((value, key) => {
+      urlWithParam.searchParams.append(key, value);
+    });
+    
+    getData(urlWithParam, renderVacancies, renderError).then(() => {
+      lastUrl = urlWithParam;
+    });;
   });
 };
 
