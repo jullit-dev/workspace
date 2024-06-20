@@ -60,7 +60,7 @@ const renderMoreVacancies = (data) => {
   observer.observe(cardsList.lastElementChild);
 };
 
-const loadMoreVacacies = () => {
+const loadMoreVacancies = () => {
   if (pagination.totalPages > pagination.currentPage) {
     const urlWithParams = new URL(lastUrl);
     urlWithParams.searchParams.set('page', pagination.currentPage + 1);
@@ -137,7 +137,7 @@ const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        loadMoreVacacies();
+        loadMoreVacancies();
       };
     });
   }, {
@@ -215,6 +215,15 @@ const init = () => {
     if (vacancyCard) {
       const vacancyId = vacancyCard.dataset.id;
       openModal(vacancyId);
+    }
+  });
+
+  cardsList.addEventListener('keydown', ({ code, target }) => {
+    const vacancyCard = target.closest('.vacancy');
+    if ((code ==='Enter' || code ==='NumpadEnter') && vacancyCard) {
+      const vacancyId = vacancyCard.dataset.id;
+      openModal(vacancyId);
+      target.blur();
     }
   });
 

@@ -45,7 +45,7 @@
   }
 
   .header__link {
-    padding: 10px 16px;
+    padding: 10px 25px;
     font-size: 14px;
   }
 
@@ -116,6 +116,10 @@
     margin-bottom: 40px;
   }
 
+  .filter__reset {
+    position: relative;
+  }
+
   .filter__title {
     position: absolute;
     clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
@@ -134,14 +138,13 @@
   .filter__checkboxes {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 24px;
+    gap: 24px 70px;
     justify-content: space-between;
   }
 
   .filter__buttons {
     display: flex;
     gap: 16px;
-    align-items: center;
   }
 
   .vacancies__cards {
@@ -177,7 +180,7 @@
   }
 
   .header {
-    padding: 24px 0 24px;
+    padding: 24px 0;
   }
 
   .header__link {
@@ -185,12 +188,12 @@
   }
 
   .hero {
-    padding: 20px 0;
+    padding: 17px 0 8px;
   }
 
   .hero__container {
     padding-top: 0;
-    padding-bottom: 245px;
+    padding-bottom: 234px;
   }
 
   .hero__container::after {
@@ -210,6 +213,10 @@
 
   .vacancies__filter-btn_active {
     margin-bottom: 24px;
+  }
+
+  .filter__form {
+    gap: 24px;
   }
 
   .footer {
