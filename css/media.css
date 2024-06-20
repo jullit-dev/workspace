@@ -74,13 +74,16 @@
 
   .vacancies__container {
     flex-direction: column;
-    row-gap: 40px;
+    row-gap: 0;
   }
 
   .vacancies__filter-btn {
     display: flex;
     align-items: center;
     color: var(--color-accent);
+    margin-bottom: 24px;
+    transition: margin-bottom .2s ease-in-out;
+    transition-delay: .2s;
   }
 
   .vacancies__filter-btn::after {
@@ -89,6 +92,11 @@
     width: 20px;
     height: 20px;
     background: url('../img/arrow-blue.svg') no-repeat center;
+  }
+
+  .vacancies__filter-btn_active {
+    margin-bottom: 32px;
+    transition-delay: 0;
   }
 
   .vacancies__filter-btn_active::after {
@@ -105,6 +113,7 @@
 
   .vacancies__filter_active {
     height: auto;
+    margin-bottom: 40px;
   }
 
   .filter__title {
@@ -199,8 +208,8 @@
     font-size: 32px;
   }
 
-  .vacancies {
-    gap: 24px;
+  .vacancies__filter-btn_active {
+    margin-bottom: 24px;
   }
 
   .footer {
