@@ -45,7 +45,7 @@
   }
 
   .header__link {
-    padding: 10px 16px;
+    padding: 8px 23px;
     font-size: 14px;
   }
 
@@ -74,25 +74,39 @@
 
   .vacancies__container {
     flex-direction: column;
-    row-gap: 40px;
+    row-gap: 0;
   }
 
   .vacancies__filter-btn {
     display: flex;
     align-items: center;
     color: var(--color-accent);
+    margin-bottom: 24px;
+    transition-property: margin-bottom, color;
+    transition-duration: .3s;
+    transition-timing-function:ease-in-out;
   }
 
-  .vacancies__filter-btn::after {
-    content: '';
+  .vacancies__filter-btn:hover:not(:focus) {
+    color: var(--color-btn);
+  }
+
+  .vacancies__filter-btn-arrow {
+    position: relative;
     display: block;
     width: 20px;
     height: 20px;
-    background: url('../img/arrow-blue.svg') no-repeat center;
+    transition: fill .3s ease-in-out;
   }
 
-  .vacancies__filter-btn_active::after {
+  .vacancies__filter-btn_active {
+    margin-bottom: 32px;
+    transition-delay: 0;
+  }
+
+  .vacancies__filter-btn_active .vacancies__filter-btn-arrow {
     transform: rotate(180deg);
+    top: 2px;
   }
 
   .vacancies__filter {
@@ -105,6 +119,11 @@
 
   .vacancies__filter_active {
     height: auto;
+    margin-bottom: 35px;
+  }
+
+  .filter__reset {
+    position: relative;
   }
 
   .filter__title {
@@ -125,14 +144,13 @@
   .filter__checkboxes {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 24px;
+    gap: 24px 70px;
     justify-content: space-between;
   }
 
   .filter__buttons {
     display: flex;
     gap: 16px;
-    align-items: center;
   }
 
   .vacancies__cards {
@@ -168,7 +186,7 @@
   }
 
   .header {
-    padding: 24px 0 24px;
+    padding: 24px 0;
   }
 
   .header__link {
@@ -176,12 +194,12 @@
   }
 
   .hero {
-    padding: 20px 0;
+    padding: 17px 0 8px;
   }
 
   .hero__container {
     padding-top: 0;
-    padding-bottom: 245px;
+    padding-bottom: 234px;
   }
 
   .hero__container::after {
@@ -199,7 +217,15 @@
     font-size: 32px;
   }
 
-  .vacancies {
+  .vacancies__filter-btn_active {
+    margin-bottom: 24px;
+  }
+
+  .vacancies__filter_active {
+    margin-bottom: 42px;
+  }
+
+  .filter__form {
     gap: 24px;
   }
 
