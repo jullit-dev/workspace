@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/choices.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style-employer.css">
   <link rel="stylesheet" href="css/media.css">
 
   <script src="js/choices.min.js" defer></script>
@@ -17,8 +18,9 @@
 <body>
   <header class="header">
     <div class="container header__container">
-      <img class="header__logo" src="img/logo.svg" alt="Логотип WorkSpace">
-      <a class="header__link btn-color" href="#vacancies">Посмотреть вакансии</a>
+      <a href="index.html">      <img class="header__logo" src="img/logo.svg" alt="Логотип WorkSpace">
+      </a>
+      <a class="header__link btn-color" href="index.html#vacancies">Посмотреть вакансии</a>
     </div>
   </header>
 
@@ -33,8 +35,8 @@
             </div>
 
             <div class="file__wrap-btn">
-              <label class="file__label" for="logo">+ загрузить лого</label>
-              <input class="File__input" id="logo" type="file" name="logo" accept="image/png, image/jpeg">
+              <label class="file__label btn-color" for="logo">+ загрузить лого</label>
+              <input class="file__input" id="logo" type="file" name="logo" accept="image/png, image/jpeg" required>
             </div>
           </div>
 
@@ -71,8 +73,8 @@
               placeholder="Добавьте всю необходимую для соискателя информацию"></textarea>
           </fieldset>
 
-          <div class="employer__radio--buttons">
-            <fieldset class="employer__fieldset-redio">
+          <div class="employer__radio-buttons">
+            <fieldset class="employer__fieldset-radio">
               <legend class="employer__legend">Формат</legend>
 
               <label class="employer__label-radio radio">
@@ -89,7 +91,7 @@
 
             </fieldset>
 
-            <fieldset class="employer__fieldset-redio">
+            <fieldset class="employer__fieldset-radio">
               <legend class="employer__legend">Опыт работы</legend>
 
               <label class="employer__label-radio radio">
@@ -109,7 +111,7 @@
               </label>
             </fieldset>
 
-            <fieldset class="employer__fieldset-redio">
+            <fieldset class="employer__fieldset-radio">
               <legend class="employer__legend">Занятость</legend>
 
               <label class="employer__label-radio radio">
@@ -131,7 +133,7 @@
           </div>
 
           <div class="employer__wrap-submit">
-            <button class="employer__submit">Добавить вакансию</button>
+            <button class="employer__submit btn-color">Добавить вакансию</button>
             <div class="employer__error">
               <p>Ошибка. Заполните все поля</p>
             </div>
