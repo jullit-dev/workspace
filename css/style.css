@@ -116,6 +116,7 @@ input[type="number"]:focus {
 
 .btn-color {
   background-color: var(--color-btn);
+  cursor: pointer;
   outline: none;
   border: 2px solid transparent;
   transition-property: background-color, color;
@@ -143,14 +144,36 @@ input[type="number"]:focus {
 
 .header__container {
   display: flex;
+  flex-wrap: wrap;
+  gap: 24px 10px;
   align-items: center;
   justify-content: space-between;
+}
+
+.header__links {
+  display: flex;
+  gap: 4px 8px;
+  flex-wrap: wrap;
 }
 
 .header__link {
   padding: 12px 32px;
   border-radius: 8px;
   font-size: 20px;
+}
+
+.header__link_add-vacancy {
+  background-color: transparent;
+  border: 1px solid var(--color-btn);
+  outline: none;
+}
+
+.header__link_add-vacancy:focus-visible {
+  border-color: #4f58be;
+}
+
+.header__link_add-vacancy:hover {
+  background-color: var(--color-hover-bg);
 }
 
 /* hero */
