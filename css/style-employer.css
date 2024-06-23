@@ -221,14 +221,10 @@
 }
 
 /* error */
-.error-border:has(.error) .employer__input {
+.error.employer__input {
   border-color: var(--color-error);
 }
 
 .employer__fieldset-radio:has(.error) .employer__legend {
   color: var(--color-error);
-}
-
-.radio .radio__input.error {
-  border-color: blue;
 }
