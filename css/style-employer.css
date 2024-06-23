@@ -32,6 +32,8 @@
   border-radius: 4px;
   border: 0;
   padding: 8px 16px;
+  outline: none;
+  border: 1px solid transparent;
 }
 
 .employer__input::placeholder {
@@ -39,6 +41,14 @@
   font-size: 14px;
   line-height: 1.2;
   color: var(--color-gray);
+}
+
+.employer__input:focus-visible {
+  border-color: var(--color-btn);
+}
+
+.employer__input:hover {
+  background-color: var(--color-hover-bg);
 }
 
 .employer__fieldset-textarea {
@@ -50,13 +60,22 @@
   width: 100%;
   padding: 7px 16px;
   resize: vertical;
-  border: 0;
   border-radius: 4px;
   color: var(--color-gray);
+  outline: none;
+  border: 1px solid transparent;
 }
 
 .employer__textarea::placeholder {
   color: var(--color-gray);
+}
+
+.employer__textarea:focus-visible {
+  border-color: var(--color-btn);
+}
+
+.employer__textarea:hover {
+  background-color: var(--color-hover-bg);
 }
 
 .employer__radio-buttons {
@@ -115,6 +134,10 @@
   margin-bottom: 12px;
 }
 
+.file_active .file__wrap-preview {
+  background-color: transparent;
+}
+
 .file__wrap-preview_active {
   min-width: auto;
 }
@@ -161,7 +184,7 @@
   left: 0;
   top: 0;
   bottom: 0;
-  border-radius: 32px;
+  border-radius: 50%;
   background-color: var(--color-white);
 }
 
@@ -174,7 +197,7 @@
   display: block;
   width: 4px;
   height: 4px;
-  border-radius: 100%;
+  border-radius: 50%;
   background: var(--color-text) no-repeat center;
   opacity: 0;
   transition: opacity .2s ease-in-out;
@@ -195,4 +218,17 @@
 
 .radio__input:disabled {
   background-color: var(--color-gray);
+}
+
+/* error */
+.error-border:has(.error) .employer__input {
+  border-color: var(--color-error);
+}
+
+.employer__fieldset-radio:has(.error) .employer__legend {
+  color: var(--color-error);
+}
+
+.radio .radio__input.error {
+  border-color: blue;
 }

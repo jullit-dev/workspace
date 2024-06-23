@@ -237,7 +237,13 @@
   }
 
   .header__container {
+    flex-direction: column;
     justify-content: center;
+  }
+
+  .header__links {
+    max-width: 290px;
+    width: 100%;
   }
 
   .header__link {

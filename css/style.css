@@ -17,7 +17,8 @@
   --color-bg: #f3f4f8;
   --color-gray: #ccc;
   --color-white: #fff;
-  --color-hover-bg: #f9faff;;
+  --color-hover-bg: #f9faff;
+  --color-error: #f00;
   
   --width: 1180px;
   --padding: 30px;
@@ -145,7 +146,7 @@ input[type="number"]:focus {
 .header__container {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px 10px;
+  gap: 24px;
   align-items: center;
   justify-content: space-between;
 }
