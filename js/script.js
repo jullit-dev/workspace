@@ -1,4 +1,4 @@
-const API_URL = 'https://workspace-methed.vercel.app/';
+const API_URL = 'https://cosmic-motley-bed.glitch.me/';
 const LOCATION_URL = 'api/locations';
 const VACANCY_URL = 'api/vacancy';
 
@@ -257,11 +257,12 @@ const init = () => {
           color: '#f00',
         },
         errorFieldStyle: {
-          border: '1px solid #fff',
+          borderColor: 'transparent',
         },
-        errorFieldCssClass: ['error'],
+        errorFieldCssClass: 'error',
         errorsContainer: document.querySelector('.employer__error'),
-      });  
+      });
+
     validate
       .addField('#logo', [
         {
@@ -309,7 +310,11 @@ const init = () => {
       .addField('#email', [
         {
           rule: 'required', 
-          errorMessage: 'Заполните email'
+          errorMessage: 'Заполните e-mail'
+        },
+        {
+          rule: 'email',
+          errorMessage: 'Введите корректный e-mail'
         }
       ])
       .addField('#description', [
@@ -321,6 +326,8 @@ const init = () => {
       .addRequiredGroup('#format', 'Выберите формат работы')
       .addRequiredGroup('#experience', 'Выберите опыт работы')
       .addRequiredGroup('#type', 'Выберите тип занятости');
+
+      return validate;
     };
 
     const fileController = () => {
@@ -345,18 +352,43 @@ const init = () => {
 
     const formController = () => {
       const form = document.querySelector('.employer__form');
+      const employerError = document.querySelector('.employer__error');
 
-      validationForm(form);
+      const validate = validationForm(form);
 
-      form.addEventListener('submit', (event) => {
+      form.addEventListener('submit', async (event) => {
         event.preventDefault();
-        console.log("Отправка");
+
+        if (!validate.isValid) {
+          return;
+        };
+
+        try {
+          const formData = new FormData(form);
+
+          employerError.textContent = 'Отправка, подождите...';
+
+          const response = await fetch(`${API_URL}${VACANCY_URL}`, {
+            method: 'POST',
+            body: formData,
+          });
+  
+          if (response.ok) {
+            employerError.textContent = '';
+
+            window.location.href = 'index.html';
+          };
+        } catch (error) {
+          employerError.textContent = 'Произошла ошибка';
+
+          console.error(error);
+        };
+
       });
     };
 
-    
-    fileController()
-    formController()
+    formController();
+    fileController();
 
   } catch (error) {
     console.log("error: ", error);

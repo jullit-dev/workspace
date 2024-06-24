@@ -201,6 +201,8 @@
   background: var(--color-text) no-repeat center;
   opacity: 0;
   transition: opacity .2s ease-in-out;
+  
+  border: 1 solid transparent;
 }
 
 .radio__input:checked:after {
@@ -221,7 +223,8 @@
 }
 
 /* error */
-.error.employer__input {
+.error.employer__input,
+.error.employer__textarea {
   border-color: var(--color-error);
 }
 
