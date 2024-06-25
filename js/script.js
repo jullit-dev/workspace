@@ -1,139 +1,27 @@
-const API_URL = 'https://cosmic-motley-bed.glitch.me/';
-const LOCATION_URL = 'api/locations';
-const VACANCY_URL = 'api/vacancy';
+import { filterToggle } from './modules/openFilter.js';
+import { selectCityControl } from './modules/selectCityControl.js';
+import { vacancyControl } from './modules/vacancyControl.js';
+import { modalVacancyControl } from './modules/modalVacancyControl.js';
+import { filterFormControl } from './modules/filterFormControl.js';
+import { formController } from './modules/formController.js';
+import { fileController } from './modules/fileController.js';
+import { loadMoreVacancies } from './modules/loadMoreVacancies.js';
 
-const cardsList = document.querySelector('.cards__list');
-let lastUrl = '';
-const pagination = {};
+export const API_URL = 'https://cosmic-motley-bed.glitch.me/';
+export const LOCATION_URL = 'api/locations';
+export const VACANCY_URL = 'api/vacancy';
 
-const getData = async (url, cbSuccess, cbError) => {
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    cbSuccess(data);
-  } catch (err) {
-    cbError
-  }
+export const cardsList = document.querySelector('.cards__list');
+export const filterForm = document.querySelector('.filter__form');
+export const vacanciesFilterBtn = document.querySelector('.vacancies__filter-btn');
+export const vacanciesFilter = document.querySelector('.vacancies__filter');
+
+export let appData = {
+  lastUrl: '',
 };
+export const pagination = {};
 
-const createCard = (vacancy) =>  
-  `
-  <article class="vacancy" tabindex="0" data-id="${vacancy.id}">
-    <img class="vacancy__img" src="${API_URL}${vacancy.logo}" alt="Логотип компании ${vacancy.company}">
-    <p class="vacancy__company">${vacancy.company}</p>
-    <h3 class="vacancy__title">${vacancy.title}</h3>
-    <ul class="vacancy__fields">
-      <li class="vacancy__field">от ${parseInt(vacancy.salary).toLocaleString()}₽</li>
-      <li class="vacancy__field">${vacancy.type}</li>
-      <li class="vacancy__field">${vacancy.format}</li>
-      <li class="vacancy__field">${vacancy.experience}</li>
-    </ul>
-  </article>
-`;
-
-const createCards = (data) => 
-  data.vacancies.map((vacancy) => {
-    const li = document.createElement('li');
-    li.classList.add('cards__item');
-    li.insertAdjacentHTML('beforeend', createCard(vacancy));
-    return li;
-  });
-
-const renderVacancies = (data) => {
-  cardsList.textContent = '';
-  const cards = createCards(data);
-  cardsList.append(...cards);
-  if (data.pagination) {
-    Object.assign(pagination, data.pagination);
-  }
-  observer.observe(cardsList.lastElementChild);
-};
-
-const renderMoreVacancies = (data) => {
-  const cards = createCards(data);
-  cardsList.append(...cards);
-
-  if (data.pagination) {
-    Object.assign(pagination, data.pagination);
-  }
-  
-  observer.observe(cardsList.lastElementChild);
-};
-
-const loadMoreVacancies = () => {
-  if (pagination.totalPages > pagination.currentPage) {
-    const urlWithParams = new URL(lastUrl);
-    urlWithParams.searchParams.set('page', pagination.currentPage + 1);
-    urlWithParams.searchParams.set('limit', window.innerWidth < 768 ? 6 : 12);
-
-    getData(urlWithParams, renderMoreVacancies, renderError).then(() => {
-      lastUrl = urlWithParams;
-    });
-  }
-};
-
-const renderError = (err) => {
-  console.warn(err);
-};
-
-const createDetailVacancy = (data) => 
-  `
-    <article class="detail">
-      <div class="detail__header">
-        <img class="detail__logo" src="${API_URL}${data.logo}" alt="Логотип компании ${data.company}">
-        <p class="detail__company">${data.company}</p>
-        <h2 class="detail__title">${data.title}</h2>
-      </div>
-
-      <div class="detail__info">
-        <p class="detail__descr">${data.description.replaceAll('\n', '<br>')}</p>
-        <ul class="detail__fields">
-          <li class="detail__field">от ${parseInt(data.salary).toLocaleString()}₽</li>
-          <li class="detail__field">${data.type}</li>
-          <li class="detail__field">${data.format}</li>
-          <li class="detail__field">${data.experience}</li>
-          <li class="detail__field">${data.location}</li>
-        </ul>
-      </div>
-
-      <p class="detail__resume">Отправляйте резюме на <a class="accent-text" href="mailto:${data.email}">${data.email}</a></p>
-    </article>
-`;
-
-const renderModal = (data) => {
-  const modal = document.createElement('div');
-  const modalMain = document.createElement('div');
-  const modalClose = document.createElement('button');
-  modal.classList.add('modal');
-  modalMain.classList.add('modal__main');
-  modalClose.classList.add('modal__close');
-  modalMain.innerHTML = createDetailVacancy(data);
-  modalClose.innerHTML = 
-  `
-    <svg class="modal__close-svg" width="20" height="20" viewBox="0 0 20 20" fill="#CCCCCC" xmlns="http://www.w3.org/2000/svg">
-      <g>
-        <path
-          d="M10.7831 10L15.3887 5.39444C15.4797 5.28816 15.5272 5.15145 15.5218 5.01163C15.5164 4.87181 15.4585 4.73918 15.3595 4.64024C15.2606 4.5413 15.128 4.48334 14.9881 4.47794C14.8483 4.47254 14.7116 4.52009 14.6053 4.61111L9.99977 9.21666L5.39421 4.60555C5.2896 4.50094 5.14771 4.44217 4.99977 4.44217C4.85182 4.44217 4.70994 4.50094 4.60532 4.60555C4.50071 4.71017 4.44194 4.85205 4.44194 5C4.44194 5.14794 4.50071 5.28983 4.60532 5.39444L9.21643 10L4.60532 14.6056C4.54717 14.6554 4.49993 14.7166 4.46659 14.7856C4.43324 14.8545 4.4145 14.9296 4.41155 15.0061C4.40859 15.0826 4.42148 15.1589 4.44941 15.2302C4.47734 15.3015 4.51971 15.3662 4.57385 15.4204C4.62799 15.4745 4.69274 15.5169 4.76403 15.5448C4.83532 15.5727 4.91162 15.5856 4.98813 15.5827C5.06464 15.5797 5.13972 15.561 5.20864 15.5276C5.27757 15.4943 5.33885 15.447 5.38866 15.3889L9.99977 10.7833L14.6053 15.3889C14.7116 15.4799 14.8483 15.5275 14.9881 15.5221C15.128 15.5167 15.2606 15.4587 15.3595 15.3598C15.4585 15.2608 15.5164 15.1282 15.5218 14.9884C15.5272 14.8485 15.4797 14.7118 15.3887 14.6056L10.7831 10Z"
-           />
-      </g>
-    </svg>
-  `;
-  modalMain.append(modalClose);
-  modal.append(modalMain);
-  document.body.append(modal);  
-
-  modal.addEventListener('click', ({ target }) => {
-    if (target === modal || target.closest('.modal__close')) {
-      modal.remove();
-    };
-  });
-};
-
-const openModal = (id) => {
-  getData(`${API_URL}${VACANCY_URL}/${id}`, renderModal, renderError);
-};
-
-const observer = new IntersectionObserver(
+export const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -145,251 +33,30 @@ const observer = new IntersectionObserver(
   },
 );
 
-// Open, close filter
-const openFilter = (btn, dropDpwn, classNameBtn, classNameDd) => {
-  dropDpwn.style.height = `${dropDpwn.scrollHeight}px`;
-  btn.classList.add(classNameBtn);
-  dropDpwn.classList.add(classNameDd);
-};
-
-const closeFilter = (btn, dropDpwn, classNameBtn, classNameDd) => {
-  btn.classList.remove(classNameBtn);
-  dropDpwn.classList.remove(classNameDd);
-  dropDpwn.style.height = '';
-};
-
 const init = () => {
   try {
-    const filterForm = document.querySelector('.filter__form');
-    const vacanciesFilterBtn = document.querySelector('.vacancies__filter-btn');
-    const vacanciesFilter = document.querySelector('.vacancies__filter');
-  
     // Open, close filter
-    vacanciesFilterBtn.addEventListener('click', () => {
-      if (vacanciesFilterBtn.classList.contains('vacancies__filter-btn_active')) {
-        closeFilter(vacanciesFilterBtn, vacanciesFilter, 'vacancies__filter-btn_active', 'vacancies__filter_active');
-      } else {
-        openFilter(vacanciesFilterBtn, vacanciesFilter, 'vacancies__filter-btn_active', 'vacancies__filter_active');
-      }
-    });
-  
-    window.addEventListener('resize', () => {
-      if (vacanciesFilterBtn.classList.contains('vacancies__filter-btn_active')) {
-        // vacanciesFilter.style.height = `${vacanciesFilter.scrollHeight}px`;
-        closeFilter(vacanciesFilterBtn, vacanciesFilter, 'vacancies__filter-btn_active', 'vacancies__filter_active');
-      }
-    });
+    filterToggle();
   
     // Select city
-    const citySelect = document.getElementById('city');
-    const cityChoices = new Choices(citySelect, {
-      itemSelectText: '',
-    });
+    selectCityControl();
   
-    // Api for city
-    getData(
-      `${API_URL}${LOCATION_URL}`, 
-      (locationData) => {
-        const locations = locationData.map((location) => ({
-          value: location,
-        }));
-        cityChoices.setChoices(locations, "value", "label", false);
-      },
-      (err) => {
-        console.log(err);
-      },
-    );
-  
-    // Card
-    const urlWithParams = new URL(`${API_URL}${VACANCY_URL}`);
-  
-    urlWithParams.searchParams.set('limit', window.innerWidth < 768 ? 6 : 12);
-    urlWithParams.searchParams.set('page', 1);
-  
-    getData(urlWithParams, renderVacancies, renderError).then(() => {
-      lastUrl = urlWithParams;
-    });
+    // Cards
+    vacancyControl();
   
     // Modal
-    cardsList.addEventListener('click', ({ target }) => {
-      const vacancyCard = target.closest('.vacancy');
-      if (vacancyCard) {
-        const vacancyId = vacancyCard.dataset.id;
-        openModal(vacancyId);
-      }
-    });
-  
-    cardsList.addEventListener('keydown', ({ code, target }) => {
-      const vacancyCard = target.closest('.vacancy');
-      if ((code ==='Enter' || code ==='NumpadEnter') && vacancyCard) {
-        const vacancyId = vacancyCard.dataset.id;
-        openModal(vacancyId);
-        target.blur();
-      }
-    });
+    modalVacancyControl();
   
     // Filter
-    filterForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const formData = new FormData(filterForm);
-  
-      const urlWithParam = new URL(`${API_URL}${VACANCY_URL}`);
-  
-      formData.forEach((value, key) => {
-        urlWithParam.searchParams.append(key, value);
-      });
-      
-      getData(urlWithParam, renderVacancies, renderError).then(() => {
-        lastUrl = urlWithParam;
-      }).then(() => {
-        closeFilter(vacanciesFilterBtn, vacanciesFilter, 'vacancies__filter-btn_active', 'vacancies__filter_active');
-      });
-    });
+    filterFormControl();
   } catch (error) {
     console.log("error: ", error);
     console.warn("Мы не на стринице index.html");
   };
 
   try {
-    const validationForm = (form) => {
-      const validate = new JustValidate(form, {
-        errorLabelStyle: {
-          color: '#f00',
-        },
-        errorFieldStyle: {
-          borderColor: 'transparent',
-        },
-        errorFieldCssClass: 'error',
-        errorsContainer: document.querySelector('.employer__error'),
-      });
-
-    validate
-      .addField('#logo', [
-        {
-          rule: 'minFilesCount',
-          value: 1,
-          errorMessage: 'Добавьте логотип',
-        },
-        {
-          rule: 'files',
-          value: {
-            files: {
-              extensions: ['jpeg', 'jpg', 'png'],
-              maxSize: 102400,
-              minSize: 1000,
-              types: ['image/jpeg', 'image/jpg', 'image/png'],
-            },
-          },
-          errorMessage: 'Размер файла должен быть не больше 100Кб',
-        },
-      ])
-      .addField('#company', [
-        {
-          rule: 'required', 
-          errorMessage: 'Заполните название компании'
-        }
-      ])
-      .addField('#title', [
-        {
-          rule: 'required', 
-          errorMessage: 'Заполните название вакансии'
-        }
-      ])
-      .addField('#salary', [
-        {
-          rule: 'required', 
-          errorMessage: 'Заполните заработную плату'
-        }
-      ])
-      .addField('#location', [
-        {
-          rule: 'required', 
-          errorMessage: 'Заполните город'
-        }
-      ])
-      .addField('#email', [
-        {
-          rule: 'required', 
-          errorMessage: 'Заполните e-mail'
-        },
-        {
-          rule: 'email',
-          errorMessage: 'Введите корректный e-mail'
-        }
-      ])
-      .addField('#description', [
-        {
-          rule: 'required', 
-          errorMessage: 'Заполните описание'
-        }
-      ])
-      .addRequiredGroup('#format', 'Выберите формат работы')
-      .addRequiredGroup('#experience', 'Выберите опыт работы')
-      .addRequiredGroup('#type', 'Выберите тип занятости');
-
-      return validate;
-    };
-
-    const fileController = () => {
-      const file = document.querySelector('.file');
-      const filePreview = file.querySelector('.file__preview');
-      const fileInput = file.querySelector('.file__input');
-
-      fileInput.addEventListener('change', (event) => {
-        console.log(event.target.files)
-        if (event.target.files.length > 0) {
-          const fileSrc = URL.createObjectURL(event.currentTarget.files[0]);
-          file.classList.add('file_active');
-          filePreview.src = fileSrc;
-          filePreview.style.display = 'block';
-        } else {
-          file.classList.remove('file_active');
-          filePreview.src = '';
-          filePreview.style.display = 'none';
-        }
-      })
-    };
-
-    const formController = () => {
-      const form = document.querySelector('.employer__form');
-      const employerError = document.querySelector('.employer__error');
-
-      const validate = validationForm(form);
-
-      form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        if (!validate.isValid) {
-          return;
-        };
-
-        try {
-          const formData = new FormData(form);
-
-          employerError.textContent = 'Отправка, подождите...';
-
-          const response = await fetch(`${API_URL}${VACANCY_URL}`, {
-            method: 'POST',
-            body: formData,
-          });
-  
-          if (response.ok) {
-            employerError.textContent = '';
-
-            window.location.href = 'index.html';
-          };
-        } catch (error) {
-          employerError.textContent = 'Произошла ошибка';
-
-          console.error(error);
-        };
-
-      });
-    };
-
     formController();
     fileController();
-
   } catch (error) {
     console.log("error: ", error);
     console.warn("Мы не на стринице employer.html");
