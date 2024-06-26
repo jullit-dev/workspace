@@ -17,7 +17,7 @@ export const selectCityControl = () => {
       cityChoices.setChoices(locations, "value", "label", false);
     },
     (err) => {
-      console.log(err);
+      console.warn(err);
     },
   );
 };
