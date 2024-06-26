@@ -50,16 +50,14 @@ const init = () => {
     // Filter
     filterFormControl();
   } catch (error) {
-    console.log("error: ", error);
-    console.warn("Мы не на стринице index.html");
+    console.warn("error: ", error);
   };
 
   try {
     formController();
     fileController();
   } catch (error) {
-    console.log("error: ", error);
-    console.warn("Мы не на стринице employer.html");
+    console.warn("error: ", error);
   }
 };
 

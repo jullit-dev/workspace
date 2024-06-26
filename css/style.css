@@ -618,3 +618,11 @@ input[type="number"]:focus {
 .detail__resume {
   line-height: 1.4;
 }
+
+/* loading */
+.loading {
+  height: 100px;
+  width: 100%;
+  text-align: center;
+  padding: 50px 100px;
+}
